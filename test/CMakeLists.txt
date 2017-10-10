@@ -1,15 +1,21 @@
 itk_module_test()
 
-set(StatismoTests
+set(StatismoITKTests
   itkStandardImageRepresenterTest.cxx
   itkStandardMeshRepresenterTest.cxx
   )
 
-CreateTestDriver(Statismo "${Statismo_LIBRARIES}" "${StatismoTests}")
+CreateTestDriver(StatismoITK "${StatismoITK_LIBRARIES};${StatismoITK-Test_LIBRARIES}" "${StatismoITKTests}")
 
 itk_add_test( NAME itkStandardImageRepresenterTest
-  COMMAND StatismoTestDriver itkStandardImageRepresenterTest ${statismo_SOURCE_DIR}/data
+  COMMAND StatismoITKTestDriver itkStandardImageRepresenterTest
+    DATA{Input/hand_images/hand-1.vtk}
+    DATA{Input/hand_images/hand-2.vtk}
+    DATA{Input/hand_dfs/df-hand-1.vtk}
+    DATA{Input/hand_dfs/df-hand-2.vtk}
 )
 itk_add_test( NAME itkStandardMeshRepresenterTest
-  COMMAND StatismoTestDriver itkStandardMeshRepresenterTest ${statismo_SOURCE_DIR}/data
+  COMMAND StatismoITKTestDriver itkStandardMeshRepresenterTest
+    DATA{Input/hand_polydata/hand-0.vtk}
+    DATA{Input/hand_polydata/hand-1.vtk}
 )

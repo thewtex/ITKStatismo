@@ -36,6 +36,7 @@
  */
 
 #include <itkMeshFileReader.h>
+#include <itkTransformBase.h>
 
 #include "genericRepresenterTest.hxx"
 
@@ -57,15 +58,14 @@ MeshType::Pointer loadMesh(const std::string& filename) {
     return mesh;
 }
 
-int main(int argc, char** argv) {
-    if (argc < 2) {
-        std::cout << "Usage: " << argv[0] << " datadir" << std::endl;
-        exit(EXIT_FAILURE);
+int itkStandardMeshRepresenterTest(int argc, char* argv[]) {
+    if (argc < 3) {
+        std::cout << "Usage: " << argv[0] << " <referenceFileName> <testDatasetFileName>" << std::endl;
+        return EXIT_FAILURE;
     }
-    std::string datadir = std::string(argv[1]);
 
-    const std::string referenceFilename = datadir + "/hand_polydata/hand-0.vtk";
-    const std::string testDatasetFilename = datadir + "/hand_polydata/hand-1.vtk";
+    const std::string referenceFilename( argv[1] );
+    const std::string testDatasetFilename( argv[2] );
 
     RepresenterType::Pointer representer = RepresenterType::New();
     MeshType::Pointer reference = loadMesh(referenceFilename);
@@ -87,7 +87,4 @@ int main(int argc, char** argv) {
     } else {
         return EXIT_FAILURE;
     }
-
 }
-
-

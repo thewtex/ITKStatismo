@@ -51,12 +51,9 @@ ScalarImageType::Pointer loadScalarImage(const std::string& filename) {
     return img;
 }
 
-int testRepresenterForScalarImage(const std::string& datadir) {
+int testRepresenterForScalarImage( const std::string& referenceFilename, const std::string& testDatasetFilename ) {
     typedef itk::StandardImageRepresenter<float, 2> RepresenterType;
     typedef GenericRepresenterTest<RepresenterType> RepresenterTestType;
-
-    const std::string referenceFilename = datadir + "/hand_images/hand-1.vtk";
-    const std::string testDatasetFilename = datadir + "/hand_images/hand-2.vtk";
 
     RepresenterType::Pointer representer = RepresenterType::New();
     ScalarImageType::Pointer reference = loadScalarImage(referenceFilename);
@@ -88,13 +85,10 @@ VectorImageType::Pointer loadVectorImage(const std::string& filename) {
     return img;
 }
 
-int testRepresenterForVectorImage(const std::string& datadir) {
+int testRepresenterForVectorImage( const std::string& referenceFilename, const std::string& testDatasetFilename ) {
 
     typedef itk::StandardImageRepresenter<itk::Vector<float, 2>, 2> RepresenterType;
     typedef GenericRepresenterTest<RepresenterType> RepresenterTestType;
-
-    const std::string referenceFilename = datadir + "/hand_dfs/df-hand-1.vtk";
-    const std::string testDatasetFilename = datadir + "/hand_dfs/df-hand-2.vtk";
 
     RepresenterType::Pointer representer = RepresenterType::New();
     VectorImageType::Pointer reference = loadVectorImage(referenceFilename);
@@ -115,14 +109,18 @@ int testRepresenterForVectorImage(const std::string& datadir) {
 }
 
 
-int main(int argc, char** argv) {
-    if (argc < 2) {
-        std::cout << "Usage: " << argv[0] << " datadir" << std::endl;
-        exit(EXIT_FAILURE);
+int itkStandardImageRepresenterTest(int argc, char* argv[]) {
+    if (argc < 5) {
+        std::cout << "Usage: " << argv[0] << " <scalarReferenceFileName> <scalarTestDatasetFileName> <vectorReferenceFileName> <vectorTestDatasetFileName>" << std::endl;
+        return EXIT_FAILURE;
     }
-    std::string datadir = std::string(argv[1]);
-    bool resultScalarImage = testRepresenterForScalarImage(datadir);
-    bool resultVectorImage = testRepresenterForVectorImage(datadir);
+    const std::string scalarReferenceFileName( argv[1] );
+    const std::string scalarTestDatasetFileName( argv[2] );
+    const std::string vectorReferenceFileName( argv[3] );
+    const std::string vectorTestDatasetFileName( argv[4] );
+
+    bool resultScalarImage = testRepresenterForScalarImage( scalarReferenceFileName, scalarReferenceFileName );
+    bool resultVectorImage = testRepresenterForVectorImage( vectorReferenceFileName, vectorTestDatasetFileName );
 
     if (resultScalarImage == true && resultVectorImage == true) {
         return EXIT_SUCCESS;
@@ -130,5 +128,3 @@ int main(int argc, char** argv) {
         return EXIT_FAILURE;
     }
 }
-
-

@@ -3,10 +3,10 @@
 get_filename_component(MY_CURRENT_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
 file(READ "${MY_CURRENT_DIR}/README.rst" DOCUMENTATION)
 
-itk_module(Statismo
-  COMPILE_DEPENDS
-    ITKCommon
+itk_module(StatismoITK
+  DEPENDS
     ITKHDF5
+    ITKCommon
     ITKIOImageBase
     ITKIOMesh
     ITKImageFunction
@@ -16,8 +16,8 @@ itk_module(Statismo
     ITKTestKernel
     ITKIOVTK
     ITKIOMesh
+    ITKTransform
   DESCRIPTION
     "${DOCUMENTATION}"
   EXCLUDE_FROM_DEFAULT
-  ENABLE_SHARED
 )
